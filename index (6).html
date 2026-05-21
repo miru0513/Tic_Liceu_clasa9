@@ -1,0 +1,1434 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sisteme de Calcul — TIC Clasa a IX-a</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #faf7f2;
+  --cream2: #f2ede4;
+  --cream3: #e8e0d4;
+  --ink: #1a1410;
+  --ink2: #3d3228;
+  --ink3: #6b5e52;
+  --rust: #c4522a;
+  --rust2: #e8673a;
+  --rust-light: #fdf0ea;
+  --blue: #2a5c8a;
+  --blue-light: #e8f0f8;
+  --green: #2a7a4b;
+  --green-light: #e8f5ee;
+  --gold: #c49a2a;
+  --gold-light: #fdf6e3;
+  --border: #d4ccc0;
+  --shadow: rgba(26,20,16,.1);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+/* ─── HEADER ─── */
+header {
+  background: var(--ink);
+  color: var(--cream);
+  padding: 0;
+  position: sticky; top:0; z-index:100;
+}
+.header-top {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: .8rem 3rem;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+}
+.header-logo {
+  font-family: 'DM Mono', monospace;
+  font-size: .8rem; letter-spacing: .15em; text-transform: uppercase;
+  color: rgba(255,255,255,.5);
+}
+.header-logo strong { color: var(--rust2); }
+.header-nav { display:flex; gap:2rem; list-style:none; }
+.header-nav a {
+  color: rgba(255,255,255,.6); text-decoration:none;
+  font-size: .82rem; font-weight:500; letter-spacing:.05em; text-transform:uppercase;
+  transition: color .2s;
+}
+.header-nav a:hover { color: var(--rust2); }
+
+.header-hero {
+  padding: 3.5rem 3rem 3rem;
+  display: grid; grid-template-columns: 1fr auto;
+  gap: 2rem; align-items: end;
+}
+.header-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: .72rem; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--rust2); margin-bottom: .8rem;
+  display: flex; align-items: center; gap: 10px;
+}
+.header-eyebrow::before { content:''; width:24px; height:1px; background:var(--rust2); }
+.header-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.4rem, 5vw, 4.2rem);
+  font-weight: 900; line-height: 1.05;
+  color: var(--cream);
+  letter-spacing: -.01em;
+}
+.header-title em { color: var(--rust2); font-style:italic; }
+.header-subtitle {
+  font-size: 1rem; color: rgba(255,255,255,.55);
+  margin-top: 1rem; max-width: 560px; line-height: 1.7;
+}
+.header-stat {
+  text-align: right;
+}
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 4rem; font-weight:900; color: var(--rust2); line-height:1;
+}
+.stat-label { font-size:.75rem; color:rgba(255,255,255,.4); letter-spacing:.1em; text-transform:uppercase; }
+
+.chapters-bar {
+  display: flex; gap:0;
+  border-top: 1px solid rgba(255,255,255,.08);
+  overflow-x: auto;
+}
+.ch-btn {
+  padding: .9rem 1.6rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: .82rem; font-weight:600;
+  color: rgba(255,255,255,.5); background:transparent; border:none;
+  cursor:pointer; transition: all .2s; white-space:nowrap;
+  border-right: 1px solid rgba(255,255,255,.07);
+  letter-spacing:.02em;
+}
+.ch-btn.active, .ch-btn:hover { color: var(--cream); background: rgba(255,255,255,.06); }
+.ch-btn.active { color: var(--rust2); border-bottom: 2px solid var(--rust2); }
+
+/* ─── LAYOUT ─── */
+.page { max-width:1180px; margin:0 auto; padding:0 2rem; }
+
+/* ─── CHAPTER PANELS ─── */
+.ch-panel { display:none; padding: 4rem 0; }
+.ch-panel.active { display:block; }
+
+/* ─── SECTION INTRO ─── */
+.section-intro {
+  display: grid; grid-template-columns: 1fr 340px;
+  gap: 3rem; align-items: start; margin-bottom: 3.5rem;
+  padding-bottom: 3rem; border-bottom: 1px solid var(--border);
+}
+.section-intro h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 900; line-height: 1.15; margin-bottom: 1rem;
+}
+.section-intro h2 span { color: var(--rust); }
+.section-intro p { color: var(--ink3); font-size:.95rem; line-height:1.75; }
+.intro-card {
+  background: var(--ink); color: var(--cream);
+  border-radius: 12px; padding: 1.8rem;
+}
+.intro-card-title {
+  font-family: 'DM Mono', monospace;
+  font-size: .7rem; letter-spacing: .15em; text-transform:uppercase;
+  color: var(--rust2); margin-bottom: 1rem;
+}
+.intro-card ul { list-style:none; }
+.intro-card li {
+  padding: .5rem 0; border-bottom: 1px solid rgba(255,255,255,.08);
+  font-size: .88rem; color: rgba(255,255,255,.75);
+  display: flex; align-items:center; gap: 10px;
+}
+.intro-card li:last-child { border:none; }
+.intro-card li::before { content:'→'; color:var(--rust2); font-size:.8rem; flex-shrink:0; }
+
+/* ─── INFO GRID ─── */
+.info-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem; margin-bottom: 3rem;
+}
+.info-card {
+  background: white; border: 1px solid var(--border);
+  border-radius: 10px; padding: 1.6rem; position:relative; overflow:hidden;
+  transition: transform .25s, box-shadow .25s;
+}
+.info-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background: var(--card-accent, var(--rust));
+}
+.info-card:hover { transform:translateY(-3px); box-shadow:0 8px 30px var(--shadow); }
+.info-card-icon {
+  font-size:1.8rem; margin-bottom:.9rem; display:block;
+}
+.info-card h3 { font-size:1rem; font-weight:700; margin-bottom:.5rem; }
+.info-card p { font-size:.86rem; color:var(--ink3); line-height:1.6; }
+.info-card .tag {
+  display:inline-block; margin-top:.8rem;
+  font-family:'DM Mono',monospace; font-size:.68rem;
+  padding:3px 10px; border-radius:100px;
+  background:var(--tag-bg, var(--rust-light)); color:var(--tag-c, var(--rust));
+  letter-spacing:.05em;
+}
+
+/* ─── SPEC TABLE ─── */
+.spec-wrap {
+  background:white; border:1px solid var(--border);
+  border-radius:12px; overflow:hidden; margin-bottom:3rem;
+}
+.spec-head {
+  background:var(--ink); color:var(--cream);
+  padding:1rem 1.5rem; display:flex; align-items:center; gap:12px;
+}
+.spec-head h3 { font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; }
+.spec-head .badge {
+  font-family:'DM Mono',monospace; font-size:.68rem;
+  background:var(--rust); color:white; padding:3px 9px; border-radius:4px;
+  letter-spacing:.05em; text-transform:uppercase;
+}
+table.spec {
+  width:100%; border-collapse:collapse; font-size:.88rem;
+}
+table.spec th {
+  background:var(--cream2); color:var(--ink2);
+  font-weight:600; padding:10px 16px; text-align:left;
+  border-bottom:1px solid var(--border); font-size:.8rem;
+  letter-spacing:.04em; text-transform:uppercase;
+}
+table.spec td {
+  padding:11px 16px; border-bottom:1px solid var(--cream3);
+  vertical-align:top;
+}
+table.spec tr:last-child td { border:none; }
+table.spec tr:hover td { background:var(--cream2); }
+table.spec td:first-child { font-weight:600; color:var(--ink2); white-space:nowrap; }
+table.spec td.mono { font-family:'DM Mono',monospace; color:var(--rust); font-size:.83rem; }
+table.spec td.muted { color:var(--ink3); }
+table.spec tr.hl td { background:var(--rust-light) !important; }
+table.spec tr.hl td:first-child { color:var(--rust); }
+
+/* ─── COMPARISON ─── */
+.compare-grid {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:1.5rem; margin-bottom:3rem;
+}
+.compare-card {
+  border-radius:12px; overflow:hidden;
+  border: 1px solid var(--border);
+}
+.compare-card-head {
+  padding:1rem 1.5rem; display:flex; align-items:center; gap:10px;
+}
+.compare-card.a .compare-card-head { background:var(--blue); color:white; }
+.compare-card.b .compare-card-head { background:var(--green); color:white; }
+.compare-card-head h4 { font-size:1rem; font-weight:700; }
+.compare-card-head .sub { font-size:.78rem; opacity:.7; margin-left:auto; }
+.compare-body { background:white; padding:1.2rem 1.5rem; }
+.compare-body ul { list-style:none; }
+.compare-body li {
+  padding:.45rem 0; border-bottom:1px solid var(--cream3);
+  font-size:.87rem; display:flex; align-items:flex-start; gap:8px;
+}
+.compare-body li:last-child { border:none; }
+.compare-body li .ico { flex-shrink:0; font-size:.9rem; margin-top:1px; }
+.compare-body li strong { color:var(--ink2); }
+
+/* ─── DIAGRAM ─── */
+.diagram-wrap {
+  background:white; border:1px solid var(--border);
+  border-radius:12px; padding:2rem; margin-bottom:3rem;
+}
+.diagram-title {
+  font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700;
+  margin-bottom:1.5rem; display:flex; align-items:center; gap:10px;
+}
+.diagram-title::after { content:''; flex:1; height:1px; background:var(--border); }
+.hw-diagram {
+  display:grid; grid-template-columns:repeat(4,1fr);
+  gap:1rem;
+}
+.hw-box {
+  border-radius:8px; padding:1.2rem; text-align:center;
+  border:2px solid transparent; transition:all .2s; cursor:default;
+}
+.hw-box:hover { transform:translateY(-3px); }
+.hw-box.cpu { background:rgba(196,82,42,.08); border-color:rgba(196,82,42,.3); }
+.hw-box.cpu:hover { border-color:var(--rust); }
+.hw-box.ram { background:rgba(42,92,138,.08); border-color:rgba(42,92,138,.3); }
+.hw-box.ram:hover { border-color:var(--blue); }
+.hw-box.storage { background:rgba(42,122,75,.08); border-color:rgba(42,122,75,.3); }
+.hw-box.storage:hover { border-color:var(--green); }
+.hw-box.io { background:rgba(196,154,42,.08); border-color:rgba(196,154,42,.3); }
+.hw-box.io:hover { border-color:var(--gold); }
+.hw-box-icon { font-size:2rem; margin-bottom:.5rem; display:block; }
+.hw-box-name { font-weight:700; font-size:.9rem; margin-bottom:.3rem; }
+.hw-box-desc { font-size:.76rem; color:var(--ink3); line-height:1.4; }
+.hw-flow {
+  display:flex; align-items:center; justify-content:center;
+  gap:.5rem; margin-top:1.5rem; flex-wrap:wrap;
+}
+.hw-flow-step {
+  background:var(--ink); color:var(--cream);
+  padding:.5rem 1rem; border-radius:6px;
+  font-family:'DM Mono',monospace; font-size:.78rem;
+}
+.hw-flow-arrow { color:var(--rust); font-size:1.2rem; font-weight:bold; }
+
+/* ─── CALLOUT ─── */
+.callout {
+  border-left:3px solid var(--gold); background:var(--gold-light);
+  padding:1rem 1.5rem; border-radius:0 8px 8px 0;
+  margin:1.5rem 0; font-size:.9rem;
+}
+.callout strong { color:var(--gold); }
+.callout.info { border-color:var(--blue); background:var(--blue-light); }
+.callout.info strong { color:var(--blue); }
+.callout.danger { border-color:var(--rust); background:var(--rust-light); }
+.callout.danger strong { color:var(--rust); }
+.callout.success { border-color:var(--green); background:var(--green-light); }
+.callout.success strong { color:var(--green); }
+
+/* ─── ACCORDION ─── */
+.acc-list { margin-bottom:3rem; }
+.acc-item {
+  background:white; border:1px solid var(--border);
+  border-radius:10px; margin-bottom:.8rem; overflow:hidden;
+}
+.acc-head {
+  padding:1.1rem 1.5rem; display:flex; align-items:center; gap:1rem;
+  cursor:pointer; user-select:none; transition:background .2s;
+}
+.acc-head:hover { background:var(--cream2); }
+.acc-num {
+  font-family:'DM Mono',monospace; font-size:.68rem;
+  background:var(--ink); color:var(--cream);
+  padding:3px 8px; border-radius:4px; flex-shrink:0;
+}
+.acc-head h4 { font-size:.95rem; font-weight:600; flex:1; }
+.acc-head .acc-tag {
+  font-size:.72rem; font-family:'DM Mono',monospace;
+  padding:2px 8px; border-radius:4px;
+}
+.acc-chevron { color:var(--ink3); transition:transform .3s; font-size:.9rem; }
+.acc-item.open .acc-chevron { transform:rotate(180deg); }
+.acc-body { display:none; padding:0 1.5rem 1.5rem; border-top:1px solid var(--cream3); }
+.acc-item.open .acc-body { display:block; }
+.acc-body p { font-size:.9rem; color:var(--ink2); line-height:1.7; margin-bottom:.7rem; }
+.acc-body p:last-child { margin:0; }
+.acc-body ul { padding-left:1.2rem; }
+.acc-body li { font-size:.88rem; color:var(--ink3); margin-bottom:.4rem; }
+.acc-body strong { color:var(--ink); }
+
+/* ─── QUIZ ─── */
+.quiz-outer {
+  background:var(--ink); border-radius:16px;
+  padding:2.5rem; margin-top:3rem;
+}
+.quiz-outer h3 {
+  font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:900;
+  color:var(--cream); margin-bottom:.4rem;
+}
+.quiz-outer .quiz-sub { color:rgba(255,255,255,.45); font-size:.88rem; margin-bottom:2rem; }
+.quiz-prog { display:flex; gap:5px; margin-bottom:1.8rem; flex-wrap:wrap; }
+.qp { flex:1; min-width:10px; height:4px; border-radius:2px; background:rgba(255,255,255,.12); transition:background .3s; }
+.qp.done { background:var(--rust2); }
+.qp.cur { background:var(--gold); }
+.qp.wrong-q { background:#f87171; }
+.q-counter { font-family:'DM Mono',monospace; font-size:.72rem; color:rgba(255,255,255,.4); margin-bottom:.8rem; }
+.q-text { font-size:1rem; font-weight:600; color:var(--cream); margin-bottom:1.4rem; line-height:1.55; }
+.q-text code { font-family:'DM Mono',monospace; background:rgba(255,255,255,.1); padding:2px 7px; border-radius:4px; color:var(--rust2); font-size:.9em; }
+.q-opts { display:flex; flex-direction:column; gap:.6rem; margin-bottom:1.4rem; }
+.qo {
+  padding:12px 16px; border-radius:8px;
+  border:1px solid rgba(255,255,255,.15); background:rgba(255,255,255,.05);
+  color:rgba(255,255,255,.8); cursor:pointer; font-size:.88rem;
+  font-family:'DM Sans',sans-serif; text-align:left; transition:all .2s;
+}
+.qo:hover:not([disabled]) { border-color:var(--gold); background:rgba(196,154,42,.1); color:white; }
+.qo.correct { border-color:#4ade80; background:rgba(74,222,128,.1); color:#4ade80; }
+.qo.wrong { border-color:#f87171; background:rgba(248,113,113,.1); color:#f87171; }
+.q-fb { padding:11px 16px; border-radius:8px; font-size:.87rem; margin-bottom:1.2rem; display:none; line-height:1.5; }
+.q-fb.show { display:block; }
+.q-fb.good { background:rgba(74,222,128,.1); color:#4ade80; border:1px solid rgba(74,222,128,.25); }
+.q-fb.bad { background:rgba(248,113,113,.1); color:#f87171; border:1px solid rgba(248,113,113,.25); }
+.q-btn {
+  background:var(--rust2); color:white; border:none;
+  padding:11px 26px; border-radius:8px; cursor:pointer;
+  font-family:'DM Sans',sans-serif; font-weight:700; font-size:.9rem;
+  transition:all .2s;
+}
+.q-btn:hover { background:#ff7844; transform:translateY(-1px); }
+.q-score { text-align:center; padding:2rem; display:none; }
+.q-score.show { display:block; }
+.score-big { font-family:'Playfair Display',serif; font-size:5rem; font-weight:900; color:var(--rust2); line-height:1; }
+.score-msg { color:rgba(255,255,255,.6); margin-top:.5rem; font-size:.95rem; }
+.score-bar-w { margin:1.2rem auto; max-width:300px; background:rgba(255,255,255,.1); border-radius:8px; height:7px; overflow:hidden; }
+.score-bar { height:100%; border-radius:8px; background:var(--rust2); transition:width 1s ease; }
+
+/* ─── PRACTICAL CARDS ─── */
+.practical-grid {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:1.5rem; margin-bottom:3rem;
+}
+.prac-card {
+  border:1px solid var(--border); border-radius:12px; overflow:hidden;
+  background:white; transition:transform .25s,box-shadow .25s;
+}
+.prac-card:hover { transform:translateY(-3px); box-shadow:0 8px 30px var(--shadow); }
+.prac-card-head {
+  padding:1.2rem 1.5rem; display:flex; align-items:center; gap:12px;
+}
+.prac-card.rust .prac-card-head { background:var(--rust); }
+.prac-card.blue .prac-card-head { background:var(--blue); }
+.prac-card.green .prac-card-head { background:var(--green); }
+.prac-card.gold .prac-card-head { background:var(--gold); }
+.prac-card-head h4 { color:white; font-size:.95rem; font-weight:700; }
+.prac-card-head .prac-num { font-family:'DM Mono',monospace; font-size:.7rem; color:rgba(255,255,255,.6); }
+.prac-body { padding:1.3rem 1.5rem; }
+.prac-body p { font-size:.87rem; color:var(--ink3); line-height:1.6; margin-bottom:.8rem; }
+.prac-steps { list-style:none; counter-reset:step; }
+.prac-steps li {
+  counter-increment:step; padding:.4rem 0 .4rem 2rem; position:relative;
+  font-size:.86rem; color:var(--ink2); border-bottom:1px solid var(--cream3);
+}
+.prac-steps li:last-child { border:none; }
+.prac-steps li::before {
+  content:counter(step);
+  position:absolute; left:0; top:.3rem;
+  width:1.3rem; height:1.3rem; border-radius:50%;
+  background:var(--card-num-bg, var(--rust)); color:white;
+  font-size:.68rem; font-weight:700; font-family:'DM Mono',monospace;
+  display:flex; align-items:center; justify-content:center;
+}
+.prac-card.blue .prac-steps li::before { background:var(--blue); }
+.prac-card.green .prac-steps li::before { background:var(--green); }
+.prac-card.gold .prac-steps li::before { background:var(--gold); }
+
+/* ─── AI SECTION ─── */
+.ai-strip {
+  background:linear-gradient(135deg, var(--ink) 0%, #2d1a0e 100%);
+  border-radius:16px; padding:2.5rem; margin-bottom:3rem;
+  position:relative; overflow:hidden;
+}
+.ai-strip::before {
+  content:'AI';
+  position:absolute; right:-1rem; top:-1rem;
+  font-family:'Playfair Display',serif; font-size:12rem; font-weight:900;
+  color:rgba(255,255,255,.03); line-height:1; pointer-events:none;
+  user-select:none;
+}
+.ai-strip-head {
+  display:flex; align-items:center; gap:12px; margin-bottom:1.5rem;
+}
+.ai-badge {
+  background:var(--rust2); color:white;
+  font-family:'DM Mono',monospace; font-size:.68rem;
+  padding:4px 10px; border-radius:4px; letter-spacing:.1em; text-transform:uppercase;
+}
+.ai-strip h3 { font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--cream); font-weight:900; }
+.ai-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1rem; }
+.ai-item {
+  background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1);
+  border-radius:10px; padding:1.2rem;
+}
+.ai-item-icon { font-size:1.5rem; margin-bottom:.6rem; }
+.ai-item h5 { color:var(--cream); font-size:.9rem; font-weight:700; margin-bottom:.4rem; }
+.ai-item p { color:rgba(255,255,255,.5); font-size:.82rem; line-height:1.55; }
+
+/* ─── FOOTER ─── */
+footer {
+  background:var(--ink); color:rgba(255,255,255,.4);
+  padding:2rem 3rem; font-size:.82rem;
+  display:flex; align-items:center; justify-content:space-between;
+  border-top:1px solid rgba(255,255,255,.06);
+}
+footer strong { color:var(--rust2); }
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:768px){
+  .header-top { padding:.8rem 1.5rem; }
+  .header-hero { padding:2rem 1.5rem; grid-template-columns:1fr; }
+  .header-stat { display:none; }
+  .page { padding:0 1.5rem; }
+  .section-intro { grid-template-columns:1fr; }
+  .compare-grid { grid-template-columns:1fr; }
+  .hw-diagram { grid-template-columns:repeat(2,1fr); }
+  footer { flex-direction:column; gap:.5rem; text-align:center; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-top">
+    <div class="header-logo"><strong>TIC</strong> · Clasa a IX-a · Trunchi Comun</div>
+    <ul class="header-nav">
+      <li><a href="#" onclick="switchCh(0);return false">Hardware</a></li>
+      <li><a href="#" onclick="switchCh(1);return false">Software</a></li>
+      <li><a href="#" onclick="switchCh(2);return false">Societate Digitală</a></li>
+      <li><a href="#" onclick="switchCh(3);return false">Conținuturi Digitale</a></li>
+      <li><a href="#" onclick="switchCh(4);return false">Quiz</a></li>
+    </ul>
+  </div>
+  <div class="header-hero page">
+    <div>
+      <div class="header-eyebrow">Tehnologia Informației și a Comunicațiilor</div>
+      <h1 class="header-title">Sisteme de Calcul<br><em>&amp; Societate Digitală</em></h1>
+      <p class="header-subtitle">Hardware, software, inteligență artificială și comunicare digitală — tot ce trebuie să știi pentru clasa a IX-a, organizat clar și practic.</p>
+    </div>
+    <div class="header-stat">
+      <div class="stat-num">4</div>
+      <div class="stat-label">Module</div>
+    </div>
+  </div>
+  <div class="page">
+    <div class="chapters-bar">
+      <button class="ch-btn active" onclick="switchCh(0)">⚙️ Hardware</button>
+      <button class="ch-btn" onclick="switchCh(1)">💾 Software & SO</button>
+      <button class="ch-btn" onclick="switchCh(2)">🌐 Societate Digitală</button>
+      <button class="ch-btn" onclick="switchCh(3)">📄 Conținuturi Digitale</button>
+      <button class="ch-btn" onclick="switchCh(4)">🧠 Quiz</button>
+    </div>
+  </div>
+</header>
+
+<main class="page">
+
+<!-- ══════════════════════════════════════════
+     CHAPTER 0 — HARDWARE
+══════════════════════════════════════════ -->
+<div class="ch-panel active" id="ch0">
+
+  <div class="section-intro">
+    <div>
+      <h2>Componenta <span>Hardware</span><br>a unui sistem de calcul</h2>
+      <p>Hardware-ul reprezintă totalitatea componentelor fizice ale unui calculator. Fiecare componentă are un rol precis în funcționarea sistemului — de la prelucrarea datelor până la afișarea rezultatelor.</p>
+      <p style="margin-top:.8rem">Cunoașterea arhitecturii unui sistem de calcul este esențială pentru alegerea configurației potrivite, depanarea problemelor și înțelegerea modului în care software-ul interacționează cu hardware-ul.</p>
+    </div>
+    <div class="intro-card">
+      <div class="intro-card-title">Componente principale</div>
+      <ul>
+        <li>Unitatea Centrală de Procesare (CPU)</li>
+        <li>Memoria RAM și ROM</li>
+        <li>Dispozitive de stocare (HDD, SSD)</li>
+        <li>Placa de bază (Motherboard)</li>
+        <li>Placa video, sunet, rețea</li>
+        <li>Periferice de intrare și ieșire</li>
+        <li>Sursa de alimentare</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- DIAGRAM -->
+  <div class="diagram-wrap">
+    <div class="diagram-title">Arhitectura unui sistem de calcul</div>
+    <div class="hw-diagram">
+      <div class="hw-box cpu">
+        <span class="hw-box-icon">🔲</span>
+        <div class="hw-box-name">CPU</div>
+        <div class="hw-box-desc">Procesează toate instrucțiunile. Conține UAL, UCC, regiștri și cache.</div>
+      </div>
+      <div class="hw-box ram">
+        <span class="hw-box-icon">🟦</span>
+        <div class="hw-box-name">Memorie RAM</div>
+        <div class="hw-box-desc">Memorie temporară. Stochează datele și programele active. Volatilă.</div>
+      </div>
+      <div class="hw-box storage">
+        <span class="hw-box-icon">💽</span>
+        <div class="hw-box-name">Stocare</div>
+        <div class="hw-box-desc">HDD sau SSD. Stochează date permanent, chiar și fără curent.</div>
+      </div>
+      <div class="hw-box io">
+        <span class="hw-box-icon">🖥️</span>
+        <div class="hw-box-name">Periferice</div>
+        <div class="hw-box-desc">Intrare: tastatură, mouse, scanner. Ieșire: monitor, imprimantă, boxe.</div>
+      </div>
+    </div>
+    <div class="hw-flow">
+      <div class="hw-flow-step">Periferic Intrare</div>
+      <div class="hw-flow-arrow">→</div>
+      <div class="hw-flow-step">RAM</div>
+      <div class="hw-flow-arrow">↔</div>
+      <div class="hw-flow-step">CPU</div>
+      <div class="hw-flow-arrow">↔</div>
+      <div class="hw-flow-step">RAM</div>
+      <div class="hw-flow-arrow">→</div>
+      <div class="hw-flow-step">Periferic Ieșire</div>
+    </div>
+  </div>
+
+  <!-- CPU -->
+  <div class="spec-wrap">
+    <div class="spec-head">
+      <h3>Unitatea Centrală de Procesare — CPU</h3>
+      <span class="badge">Componentă cheie</span>
+    </div>
+    <table class="spec">
+      <thead><tr><th>Componentă</th><th>Rol</th><th>Exemplu / Detalii</th></tr></thead>
+      <tbody>
+        <tr><td>UAL</td><td class="muted">Unitatea Aritmetică și Logică — execută calcule matematice și operații logice</td><td class="mono">+, -, ×, ÷, AND, OR, NOT</td></tr>
+        <tr class="hl"><td>UCC</td><td class="muted">Unitatea de Comandă și Control — coordonează toate componentele, citește și interpretează instrucțiunile</td><td class="mono">Fetch → Decode → Execute</td></tr>
+        <tr><td>Regiștri</td><td class="muted">Memorie internă ultrarapidă a CPU — stochează datele în curs de prelucrare</td><td class="mono">câțiva octeți, viteza CPU</td></tr>
+        <tr><td>Cache</td><td class="muted">Memorie tampon între CPU și RAM — reduce timpul de acces la date frecvent utilizate</td><td class="mono">L1 (256KB), L2 (2MB), L3 (16MB)</td></tr>
+        <tr class="hl"><td>Frecvență</td><td class="muted">Viteza de procesare a instrucțiunilor pe secundă</td><td class="mono">3.6 GHz = 3.6 miliarde cicli/s</td></tr>
+        <tr><td>Nuclee (Cores)</td><td class="muted">Procesoare independente pe același chip — mai multe nuclee = multitasking mai bun</td><td class="mono">Dual-core, Quad-core, Octa-core</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout info">
+    <strong>💡 Cum să reții:</strong> CPU = creierul calculatorului. UAL face calculele, UCC dă ordinele, regiștrii sunt „mâinile" care țin datele, iar cache-ul este „biroul" de lucru imediat.
+  </div>
+
+  <!-- MEMORIA -->
+  <div class="compare-grid">
+    <div class="compare-card a">
+      <div class="compare-card-head">
+        <h4>Memoria RAM</h4>
+        <span class="sub">Random Access Memory</span>
+      </div>
+      <div class="compare-body">
+        <ul>
+          <li><span class="ico">⚡</span><div><strong>Volatilă</strong> — datele se pierd la oprirea curentului</div></li>
+          <li><span class="ico">🔀</span><div><strong>Acces aleator</strong> — orice locație accesibilă direct, fără parcurgere</div></li>
+          <li><span class="ico">🚀</span><div><strong>Viteza mare</strong> — mult mai rapid decât HDD/SSD</div></li>
+          <li><span class="ico">📋</span><div><strong>Rol</strong> — stochează datele și programele active (în rulare)</div></li>
+          <li><span class="ico">📏</span><div><strong>Capacitate tipică</strong> — 8GB, 16GB, 32GB</div></li>
+          <li><span class="ico">🔄</span><div><strong>Tip modern</strong> — DDR4, DDR5</div></li>
+        </ul>
+      </div>
+    </div>
+    <div class="compare-card b">
+      <div class="compare-card-head">
+        <h4>Memoria ROM</h4>
+        <span class="sub">Read Only Memory</span>
+      </div>
+      <div class="compare-body">
+        <ul>
+          <li><span class="ico">🔒</span><div><strong>Non-volatilă</strong> — datele se păstrează și fără curent electric</div></li>
+          <li><span class="ico">📖</span><div><strong>Doar citire</strong> — în mod normal nu poate fi modificată de utilizator</div></li>
+          <li><span class="ico">🐢</span><div><strong>Capacitate mică</strong> — câțiva MB, nu GB</div></li>
+          <li><span class="ico">📋</span><div><strong>Rol</strong> — stochează firmware-ul (BIOS/UEFI), instrucțiunile de pornire</div></li>
+          <li><span class="ico">🔧</span><div><strong>Conținut</strong> — POST, bootstrap loader, setări hardware de bază</div></li>
+          <li><span class="ico">⚙️</span><div><strong>Modern</strong> — EEPROM, Flash ROM (poate fi actualizat prin software)</div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- STOCARE -->
+  <div class="spec-wrap">
+    <div class="spec-head">
+      <h3>Dispozitive de stocare</h3>
+      <span class="badge">HDD vs SSD</span>
+    </div>
+    <table class="spec">
+      <thead><tr><th>Criteriu</th><th>HDD (Hard Disk Drive)</th><th>SSD (Solid State Drive)</th></tr></thead>
+      <tbody>
+        <tr><td>Tehnologie</td><td class="muted">Platane magnetice rotative + cap de citire/scriere</td><td class="muted">Memorie flash NAND, fără piese mobile</td></tr>
+        <tr class="hl"><td>Viteză</td><td class="muted">100–200 MB/s</td><td class="muted">500 MB/s – 7.000 MB/s (NVMe)</td></tr>
+        <tr><td>Durabilitate</td><td class="muted">Sensibil la șocuri fizice</td><td class="muted">Rezistent la șocuri</td></tr>
+        <tr><td>Zgomot</td><td class="muted">Produce zgomot (piese mecanice)</td><td class="muted">Silențios complet</td></tr>
+        <tr class="hl"><td>Preț/GB</td><td class="muted">Mai ieftin — ideal pentru stocare masivă</td><td class="muted">Mai scump — ideal pentru sistem de operare</td></tr>
+        <tr><td>Consum energie</td><td class="muted">Mai mare</td><td class="muted">Mai redus — avantaj la laptopuri</td></tr>
+        <tr><td>Când se folosește</td><td class="muted">Arhivare, backups, date mari (filme, poze)</td><td class="muted">Sistem de operare, aplicații, jocuri</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout success">
+    <strong>✅ Recomandare practică:</strong> Configurația optimă combină SSD (pentru SO și aplicații — pornire rapidă) + HDD (pentru stocare masivă de date). Dacă bugetul e limitat, prioritizează SSD-ul.
+  </div>
+
+  <!-- PERIFERICE -->
+  <div class="info-grid">
+    <div class="info-card" style="--card-accent:var(--rust)">
+      <span class="info-card-icon">⌨️</span>
+      <h3>Periferice de intrare</h3>
+      <p>Transmit date <strong>de la utilizator</strong> la calculator: tastatură, mouse, microfon, cameră digitală, scanner 2D/3D, cititor RFID.</p>
+      <span class="tag">INPUT</span>
+    </div>
+    <div class="info-card" style="--card-accent:var(--blue);--tag-bg:var(--blue-light);--tag-c:var(--blue)">
+      <span class="info-card-icon">🖥️</span>
+      <h3>Periferice de ieșire</h3>
+      <p>Transmit date <strong>de la calculator</strong> la utilizator: monitor, imprimantă, imprimantă 3D, plotter, boxe, videoproiector.</p>
+      <span class="tag" style="background:var(--blue-light);color:var(--blue)">OUTPUT</span>
+    </div>
+    <div class="info-card" style="--card-accent:var(--green);--tag-bg:var(--green-light);--tag-c:var(--green)">
+      <span class="info-card-icon">📱</span>
+      <h3>Periferice I/O mixte</h3>
+      <p>Atât intrare, cât și ieșire: touchscreen, controler de joc cu feedback haptic, dispozitive NFC.</p>
+      <span class="tag" style="background:var(--green-light);color:var(--green)">I/O</span>
+    </div>
+    <div class="info-card" style="--card-accent:var(--gold);--tag-bg:var(--gold-light);--tag-c:var(--gold)">
+      <span class="info-card-icon">🔌</span>
+      <h3>Placa de bază</h3>
+      <p>Interconectează toate componentele prin magistrale de date, adresă și control. Conține BIOS/UEFI și chipseturi.</p>
+      <span class="tag" style="background:var(--gold-light);color:var(--gold)">MOTHERBOARD</span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>📐 Parametri de performanță monitor:</strong> Rezoluție (1920×1080, 4K), rată de reîmprospătare (60Hz, 144Hz, 240Hz), timp de răspuns (ms), tip panou (IPS, TN, OLED).
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     CHAPTER 1 — SOFTWARE & SO
+══════════════════════════════════════════ -->
+<div class="ch-panel" id="ch1">
+
+  <div class="section-intro">
+    <div>
+      <h2>Componenta <span>Software</span><br>a unui sistem de calcul</h2>
+      <p>Software-ul reprezintă totalitatea programelor, aplicațiilor și datelor care rulează pe hardware. Fără software, hardware-ul este o colecție de componente electronice fără utilitate practică.</p>
+      <p style="margin-top:.8rem">Sistemul de operare este componenta software esențială care gestionează resursele hardware și oferă o interfață între utilizator și calculator.</p>
+    </div>
+    <div class="intro-card">
+      <div class="intro-card-title">Tipuri de software</div>
+      <ul>
+        <li>Software de sistem (SO, drivere, firmware)</li>
+        <li>Software de aplicație (Word, Chrome)</li>
+        <li>Software utilitar (antivirus, arhivare)</li>
+        <li>Software open source (Linux, LibreOffice)</li>
+        <li>Software proprietar (Windows, Adobe)</li>
+        <li>Firmware (BIOS/UEFI, software integrat)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- TYPES -->
+  <div class="info-grid">
+    <div class="info-card" style="--card-accent:var(--rust)">
+      <span class="info-card-icon">🖥️</span>
+      <h3>Software de sistem</h3>
+      <p>Gestionează direct hardware-ul. Include sistemul de operare, drivere de dispozitive și firmware. Este <strong>baza</strong> pe care rulează restul.</p>
+      <span class="tag">Ex: Windows, Linux, macOS</span>
+    </div>
+    <div class="info-card" style="--card-accent:var(--blue);--tag-bg:var(--blue-light);--tag-c:var(--blue)">
+      <span class="info-card-icon">📝</span>
+      <h3>Software de aplicație</h3>
+      <p>Programe care îndeplinesc sarcini specifice pentru utilizator. Rulează <strong>deasupra</strong> sistemului de operare.</p>
+      <span class="tag" style="background:var(--blue-light);color:var(--blue)">Ex: Word, Chrome, Photoshop</span>
+    </div>
+    <div class="info-card" style="--card-accent:var(--green);--tag-bg:var(--green-light);--tag-c:var(--green)">
+      <span class="info-card-icon">🔓</span>
+      <h3>Open Source</h3>
+      <p>Codul sursă este public și poate fi modificat liber. Gratuit, transparent, susținut de comunitate. <strong>Pro:</strong> cost zero. <strong>Contra:</strong> suport tehnic mai dificil.</p>
+      <span class="tag" style="background:var(--green-light);color:var(--green)">Ex: Linux, LibreOffice, VLC</span>
+    </div>
+    <div class="info-card" style="--card-accent:var(--gold);--tag-bg:var(--gold-light);--tag-c:var(--gold)">
+      <span class="info-card-icon">🔒</span>
+      <h3>Software proprietar</h3>
+      <p>Codul sursă este secret, protejat de licență. De obicei contra cost. <strong>Pro:</strong> suport oficial, stabilitate. <strong>Contra:</strong> cost, dependență de producător.</p>
+      <span class="tag" style="background:var(--gold-light);color:var(--gold)">Ex: Windows, Office, Adobe</span>
+    </div>
+  </div>
+
+  <!-- SISTEMUL DE OPERARE -->
+  <div class="spec-wrap">
+    <div class="spec-head">
+      <h3>Sistemul de operare — funcții principale</h3>
+      <span class="badge">OS</span>
+    </div>
+    <table class="spec">
+      <thead><tr><th>Funcție</th><th>Ce face</th><th>Exemple practice</th></tr></thead>
+      <tbody>
+        <tr class="hl"><td>Gestionarea proceselor</td><td class="muted">Planifică și controlează executarea programelor, alocă timp CPU fiecărui proces</td><td class="mono">Task Manager, top (Linux)</td></tr>
+        <tr><td>Gestionarea memoriei</td><td class="muted">Alocă și eliberează RAM pentru fiecare aplicație; gestionează memoria virtuală</td><td class="mono">Memorie paginată, swap</td></tr>
+        <tr class="hl"><td>Gestionarea fișierelor</td><td class="muted">Organizează datele în fișiere și foldere, controlează accesul</td><td class="mono">NTFS, FAT32, EXT4, APFS</td></tr>
+        <tr><td>Gestionarea dispozitivelor</td><td class="muted">Comunică cu hardware-ul prin drivere</td><td class="mono">Driver placă video, driver WiFi</td></tr>
+        <tr class="hl"><td>Interfața utilizator</td><td class="muted">Oferă GUI (grafică) sau CLI (linie de comandă) pentru interacțiunea cu sistemul</td><td class="mono">Desktop Windows, Terminal Linux</td></tr>
+        <tr><td>Securitate</td><td class="muted">Gestionează utilizatori, permisiuni, firewall, criptare</td><td class="mono">Conturi admin/user, BitLocker</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- GUI vs CLI -->
+  <div class="compare-grid">
+    <div class="compare-card a">
+      <div class="compare-card-head">
+        <h4>Interfața GUI</h4>
+        <span class="sub">Graphical User Interface</span>
+      </div>
+      <div class="compare-body">
+        <ul>
+          <li><span class="ico">👆</span><div><strong>Interacțiune vizuală</strong> — ferestre, pictograme, meniuri, butoane</div></li>
+          <li><span class="ico">😊</span><div><strong>Ușor de utilizat</strong> — intuitiv, nu necesită memorarea comenzilor</div></li>
+          <li><span class="ico">🎯</span><div><strong>Ideal pentru</strong> — utilizatori obișnuiți, designeri grafici, birotică</div></li>
+          <li><span class="ico">⚡</span><div><strong>Consum mai mare</strong> de resurse hardware</div></li>
+          <li><span class="ico">💻</span><div><strong>Exemple</strong> — Windows 11, macOS Sonoma, GNOME (Linux)</div></li>
+        </ul>
+      </div>
+    </div>
+    <div class="compare-card b">
+      <div class="compare-card-head">
+        <h4>Interfața CLI</h4>
+        <span class="sub">Command Line Interface</span>
+      </div>
+      <div class="compare-body">
+        <ul>
+          <li><span class="ico">⌨️</span><div><strong>Interacțiune textuală</strong> — comenzi scrise, răspunsuri text</div></li>
+          <li><span class="ico">📚</span><div><strong>Necesită cunoștințe</strong> — trebuie memorate comenzi specifice</div></li>
+          <li><span class="ico">🎯</span><div><strong>Ideal pentru</strong> — administratori de sistem, servere, programatori</div></li>
+          <li><span class="ico">🚀</span><div><strong>Eficient</strong> — consum redus de resurse, automatizare prin scripturi</div></li>
+          <li><span class="ico">💻</span><div><strong>Exemple</strong> — Terminal (Linux/macOS), PowerShell, CMD (Windows)</div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SISTEME DE FISIERE -->
+  <div class="spec-wrap">
+    <div class="spec-head">
+      <h3>Sisteme de fișiere — comparație</h3>
+      <span class="badge">Filesystems</span>
+    </div>
+    <table class="spec">
+      <thead><tr><th>Sistem</th><th>Sistem de operare</th><th>Dimensiune max. fișier</th><th>Utilizare tipică</th></tr></thead>
+      <tbody>
+        <tr class="hl"><td>NTFS</td><td class="muted">Windows (implicit)</td><td class="mono">16 TB</td><td class="muted">Discuri interne Windows, fișiere mari</td></tr>
+        <tr><td>FAT32</td><td class="muted">Universal (toate SO)</td><td class="mono">4 GB</td><td class="muted">Stick USB, carduri SD, compatibilitate</td></tr>
+        <tr><td>exFAT</td><td class="muted">Windows, macOS, Linux</td><td class="mono">16 EB</td><td class="muted">Stick USB pentru fișiere mari</td></tr>
+        <tr class="hl"><td>EXT4</td><td class="muted">Linux (implicit)</td><td class="mono">16 TB</td><td class="muted">Discuri interne Linux</td></tr>
+        <tr><td>APFS</td><td class="muted">macOS, iOS (implicit)</td><td class="mono">8 EB</td><td class="muted">Toate dispozitivele Apple</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout danger">
+    <strong>⚠️ Atenție practică:</strong> Dacă formatezi un stick USB în NTFS, nu va fi citit pe unele TV-uri sau console. FAT32 = compatibilitate maximă, dar fișierele nu pot depăși 4 GB. Alege exFAT pentru fișiere mari pe stick-uri.
+  </div>
+
+  <!-- SECURITATE -->
+  <div class="acc-list">
+    <div style="margin-bottom:1.5rem">
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;margin-bottom:.5rem">Securizarea sistemului de operare</h3>
+      <p style="color:var(--ink3);font-size:.9rem">Protecția unui sistem de calcul implică mai multe niveluri. Click pentru detalii.</p>
+    </div>
+
+    <div class="acc-item" id="acc0">
+      <div class="acc-head" onclick="toggleAcc('acc0')">
+        <span class="acc-num">01</span>
+        <h4>Firewall — Zidul de protecție al rețelei</h4>
+        <span class="acc-tag" style="background:var(--rust-light);color:var(--rust)">Rețea</span>
+        <span class="acc-chevron">▼</span>
+      </div>
+      <div class="acc-body">
+        <p>Firewall-ul monitorizează și controlează traficul de rețea — ce poate intra și ieși din calculator. Acționează ca un filtru între rețeaua locală și internet.</p>
+        <p><strong>Tipuri:</strong> firewall software (integrat în Windows, firewall dedicat) și firewall hardware (router cu funcție de firewall).</p>
+        <p><strong>Ce face practic:</strong> blochează conexiunile nesolicitate, previne accesul hackerilor, permite aplicațiilor autorizate să comunice liber.</p>
+        <p><strong>Verificare în Windows:</strong> Control Panel → System and Security → Windows Defender Firewall.</p>
+      </div>
+    </div>
+
+    <div class="acc-item" id="acc1">
+      <div class="acc-head" onclick="toggleAcc('acc1')">
+        <span class="acc-num">02</span>
+        <h4>Software Antivirus — Protecția împotriva malware</h4>
+        <span class="acc-tag" style="background:var(--blue-light);color:var(--blue)">Malware</span>
+        <span class="acc-chevron">▼</span>
+      </div>
+      <div class="acc-body">
+        <p>Un antivirus detectează, blochează și elimină software-ul malițios (malware): viruși, troieni, ransomware, spyware, adware.</p>
+        <p><strong>Tipuri de malware:</strong></p>
+        <ul>
+          <li><strong>Virus</strong> — se atașează la fișiere și se auto-replică</li>
+          <li><strong>Troian</strong> — se deghizează ca program legitim</li>
+          <li><strong>Ransomware</strong> — criptează fișierele și cere răscumpărare</li>
+          <li><strong>Spyware</strong> — colectează date fără știrea utilizatorului</li>
+        </ul>
+        <p style="margin-top:.7rem"><strong>Esențial:</strong> antivirusul trebuie actualizat constant — noile amenințări apar zilnic.</p>
+      </div>
+    </div>
+
+    <div class="acc-item" id="acc2">
+      <div class="acc-head" onclick="toggleAcc('acc2')">
+        <span class="acc-num">03</span>
+        <h4>Gestionarea utilizatorilor și permisiunilor</h4>
+        <span class="acc-tag" style="background:var(--green-light);color:var(--green)">Acces</span>
+        <span class="acc-chevron">▼</span>
+      </div>
+      <div class="acc-body">
+        <p>Un sistem de operare poate avea mai mulți utilizatori cu drepturi diferite. Principiul <strong>„minim necesar"</strong> — fiecare utilizator primește exact drepturile de care are nevoie, nu mai mult.</p>
+        <p><strong>Tipuri de conturi:</strong></p>
+        <ul>
+          <li><strong>Administrator</strong> — acces complet, poate instala programe, modifica sistem</li>
+          <li><strong>Utilizator standard</strong> — poate folosi aplicații, nu poate modifica setările sistemului</li>
+          <li><strong>Guest</strong> — acces limitat, fără salvarea setărilor</li>
+        </ul>
+        <p style="margin-top:.7rem"><strong>Bună practică:</strong> folosește cont standard pentru activitățile zilnice; contul de administrator doar când instalezi ceva.</p>
+      </div>
+    </div>
+
+    <div class="acc-item" id="acc3">
+      <div class="acc-head" onclick="toggleAcc('acc3')">
+        <span class="acc-num">04</span>
+        <h4>Criptarea datelor — protecție la furt fizic</h4>
+        <span class="acc-tag" style="background:var(--gold-light);color:var(--gold)">Criptare</span>
+        <span class="acc-chevron">▼</span>
+      </div>
+      <div class="acc-body">
+        <p>Criptarea transformă datele în format ilizibil fără cheia corectă. Chiar dacă laptopul e furat, datele rămân protejate.</p>
+        <p><strong>BitLocker (Windows)</strong> — criptează întregul disc. Dacă laptopul e furat, datele nu pot fi accesate fără parola de criptare.</p>
+        <p><strong>FileVault (macOS)</strong> — echivalentul BitLocker pentru Mac.</p>
+        <p><strong>LUKS (Linux)</strong> — soluție de criptare pentru distribuțiile Linux.</p>
+        <p style="margin-top:.7rem"><strong>Scenariu practic:</strong> Laptop necriptat furat → hacker scoate SSD-ul și citește toate datele. Laptop criptat furat → datele sunt inaccesibile.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TASK MANAGER -->
+  <div class="practical-grid">
+    <div class="prac-card rust">
+      <div class="prac-card-head">
+        <div>
+          <div class="prac-num">Activitate practică 01</div>
+          <h4>Monitorizare procese cu Task Manager</h4>
+        </div>
+      </div>
+      <div class="prac-body">
+        <p>Utilizează Task Manager pentru a identifica aplicațiile care consumă cel mai mult RAM și CPU.</p>
+        <ol class="prac-steps">
+          <li>Apasă <strong>Ctrl + Shift + Esc</strong> sau click dreapta pe bara de sarcini</li>
+          <li>Mergi la tab-ul <strong>Procese (Processes)</strong></li>
+          <li>Click pe coloana <strong>CPU</strong> pentru sortare descrescătoare</li>
+          <li>Identifică procesul cu cel mai mare consum</li>
+          <li>Notează numele, consumul CPU% și RAM (MB)</li>
+          <li>Fă o captură de ecran ca dovadă</li>
+        </ol>
+      </div>
+    </div>
+    <div class="prac-card blue">
+      <div class="prac-card-head">
+        <div>
+          <div class="prac-num">Activitate practică 02</div>
+          <h4>Verificarea securității sistemului</h4>
+        </div>
+      </div>
+      <div class="prac-body">
+        <p>Verifică dacă sistemul tău are toate măsurile de securitate active.</p>
+        <ol class="prac-steps">
+          <li>Deschide <strong>Windows Security</strong> (Start → Windows Security)</li>
+          <li>Verifică că <strong>Virus & threat protection</strong> este activ și actualizat</li>
+          <li>Verifică că <strong>Firewall & network protection</strong> este pornit</li>
+          <li>Verifică <strong>Device security</strong> pentru criptare</li>
+          <li>Completează un checklist cu ce este activ / inactiv</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     CHAPTER 2 — SOCIETATE DIGITALA
+══════════════════════════════════════════ -->
+<div class="ch-panel" id="ch2">
+
+  <div class="section-intro">
+    <div>
+      <h2>Societate <span>Digitală</span></h2>
+      <p>Trăim într-o lume în care tehnologia digitală influențează modul în care comunicăm, învățăm, muncim și ne distrăm. Competențele digitale sunt la fel de importante ca scrisul și cititul în societatea modernă.</p>
+      <p style="margin-top:.8rem">Această unitate acoperă comunicarea digitală, inteligența artificială, tehnologiile emergente și utilizarea responsabilă a instrumentelor digitale.</p>
+    </div>
+    <div class="intro-card">
+      <div class="intro-card-title">Teme principale</div>
+      <ul>
+        <li>Comunicare și colaborare digitală</li>
+        <li>Neticheta și securitatea online</li>
+        <li>Introducere în inteligența artificială</li>
+        <li>Modele generative (LLM, chatbot)</li>
+        <li>Tehnologii emergente (VR/AR)</li>
+        <li>Platforme de învățare online</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- COMUNICARE -->
+  <div class="spec-wrap">
+    <div class="spec-head">
+      <h3>Forme de comunicare digitală</h3>
+      <span class="badge">Comunicare</span>
+    </div>
+    <table class="spec">
+      <thead><tr><th>Tip</th><th>Caracteristici</th><th>Exemple</th><th>Utilizare</th></tr></thead>
+      <tbody>
+        <tr class="hl"><td>E-mail</td><td class="muted">Asincron, formal/informal, permite atașamente</td><td class="mono">Gmail, Outlook</td><td class="muted">Comunicare profesională, documente</td></tr>
+        <tr><td>Chat / Mesagerie</td><td class="muted">Sincron sau asincron, rapid, informal</td><td class="mono">WhatsApp, Telegram</td><td class="muted">Conversații rapide, grupuri</td></tr>
+        <tr class="hl"><td>Apel video</td><td class="muted">Sincron, comunicare față în față la distanță</td><td class="mono">Zoom, Meet, Teams</td><td class="muted">Întâlniri, lecții online</td></tr>
+        <tr><td>Forum</td><td class="muted">Asincron, public, tematic</td><td class="mono">Reddit, Stack Overflow</td><td class="muted">Întrebări, comunități tematice</td></tr>
+        <tr class="hl"><td>Rețele sociale</td><td class="muted">Mixt, profil public/privat, conținut multimedia</td><td class="mono">Instagram, LinkedIn, TikTok</td><td class="muted">Networking, divertisment</td></tr>
+        <tr><td>Platforme colaborative</td><td class="muted">Sincron+asincron, editare în timp real</td><td class="mono">Google Workspace, Teams</td><td class="muted">Lucru în echipă, proiecte</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- COMUNICARE SINCRONA vs ASINCRONA -->
+  <div class="compare-grid">
+    <div class="compare-card a">
+      <div class="compare-card-head">
+        <h4>Comunicare sincronă</h4>
+        <span class="sub">în timp real</span>
+      </div>
+      <div class="compare-body">
+        <ul>
+          <li><span class="ico">⏱️</span><div><strong>Imediat</strong> — ambii participanți sunt activi simultan</div></li>
+          <li><span class="ico">💬</span><div>Chat live, apeluri video, videoconferințe</div></li>
+          <li><span class="ico">✅</span><div><strong>Avantaj:</strong> feedback instant, clarificări imediate</div></li>
+          <li><span class="ico">❌</span><div><strong>Dezavantaj:</strong> necesită disponibilitate simultană</div></li>
+          <li><span class="ico">🎯</span><div>Ideal pentru decizii urgente, brainstorming</div></li>
+        </ul>
+      </div>
+    </div>
+    <div class="compare-card b">
+      <div class="compare-card-head">
+        <h4>Comunicare asincronă</h4>
+        <span class="sub">decalat în timp</span>
+      </div>
+      <div class="compare-body">
+        <ul>
+          <li><span class="ico">📬</span><div><strong>Decalat</strong> — mesajul e citit când destinatarul are timp</div></li>
+          <li><span class="ico">📧</span><div>E-mail, forum, comentarii, mesaje vocale</div></li>
+          <li><span class="ico">✅</span><div><strong>Avantaj:</strong> flexibilitate, timp de gândire, documentare</div></li>
+          <li><span class="ico">❌</span><div><strong>Dezavantaj:</strong> nu e potrivit pentru urgențe</div></li>
+          <li><span class="ico">🎯</span><div>Ideal pentru sarcini complexe, fusuri orare diferite</div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI SECTION -->
+  <div class="ai-strip">
+    <div class="ai-strip-head">
+      <span class="ai-badge">Nou în programă</span>
+      <h3>Introducere în Inteligența Artificială</h3>
+    </div>
+    <div class="ai-grid">
+      <div class="ai-item">
+        <div class="ai-item-icon">🧠</div>
+        <h5>Ce este IA?</h5>
+        <p>Sisteme software care „învață" din date și pot face predicții sau genera conținut fără instrucțiuni explicite pentru fiecare situație.</p>
+      </div>
+      <div class="ai-item">
+        <div class="ai-item-icon">📊</div>
+        <h5>Tipuri de IA</h5>
+        <p>Clasificare, predicție, recomandare, generare de conținut, recunoaștere de imagini/voce, interacțiune cu mediul (robotică).</p>
+      </div>
+      <div class="ai-item">
+        <div class="ai-item-icon">💬</div>
+        <h5>Modele LLM</h5>
+        <p>Large Language Models (ChatGPT, Gemini, Copilot) generează text probabilistic bazat pe miliarde de exemple de antrenament.</p>
+      </div>
+      <div class="ai-item">
+        <div class="ai-item-icon">⚠️</div>
+        <h5>Limitări & Riscuri</h5>
+        <p>Bias (părtinire), halucinații (informații false prezentate cu încredere), drepturi de autor, dezinformare, consum energetic ridicat.</p>
+      </div>
+      <div class="ai-item">
+        <div class="ai-item-icon">✍️</div>
+        <h5>Prompt eficient</h5>
+        <p>Instrucțiune clară care include: rol, context, cerință specifică, format dorit. Ex: „Acționează ca profesor de fizică și explică..."</p>
+      </div>
+      <div class="ai-item">
+        <div class="ai-item-icon">🔍</div>
+        <h5>Gândire critică</h5>
+        <p>Verifică întotdeauna informațiile generate de IA din surse de încredere. IA poate „halucineze" referințe și fapte inexistente.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- NETICHETA -->
+  <div class="acc-list">
+    <div style="margin-bottom:1.5rem">
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;margin-bottom:.5rem">Neticheta — regulile comunicării digitale civilizate</h3>
+      <p style="color:var(--ink3);font-size:.9rem">La fel cum există reguli de politețe în viața reală, există norme pentru spațiul digital.</p>
+    </div>
+
+    <div class="acc-item" id="acc_net0">
+      <div class="acc-head" onclick="toggleAcc('acc_net0')">
+        <span class="acc-num">01</span>
+        <h4>E-mail profesional — cum se scrie corect</h4>
+        <span class="acc-tag" style="background:var(--rust-light);color:var(--rust)">E-mail</span>
+        <span class="acc-chevron">▼</span>
+      </div>
+      <div class="acc-body">
+        <p><strong>Structura unui e-mail profesional:</strong></p>
+        <ul>
+          <li><strong>Subiect (Subject)</strong> — clar și specific: „Cerere orar consultații — Popescu Ion, clasa 9A"</li>
+          <li><strong>Salut formal</strong> — „Stimate domnule profesor," / „Bună ziua,"</li>
+          <li><strong>Corpul mesajului</strong> — concis, la obiect, fără prescurtări (nu „u" în loc de „vă")</li>
+          <li><strong>Încheierea</strong> — „Cu respect," / „Cu stimă,"</li>
+          <li><strong>Semnătura</strong> — nume complet, clasa, școala</li>
+        </ul>
+        <p style="margin-top:.7rem"><strong>Greșeli frecvente:</strong> subiect gol, limbaj argotic, scriere cu majuscule (înseamnă „țipăt" online), fără salut/semnătură.</p>
+      </div>
+    </div>
+
+    <div class="acc-item" id="acc_net1">
+      <div class="acc-head" onclick="toggleAcc('acc_net1')">
+        <span class="acc-num">02</span>
+        <h4>Identificarea mesajelor cu risc — Phishing</h4>
+        <span class="acc-tag" style="background:var(--blue-light);color:var(--blue)">Securitate</span>
+        <span class="acc-chevron">▼</span>
+      </div>
+      <div class="acc-body">
+        <p>Phishing = tentativa de a obține date personale (parole, date bancare) prin mesaje false care imită instituții legitime.</p>
+        <p><strong>Semnale de alarmă:</strong></p>
+        <ul>
+          <li>Adresă de e-mail suspectă (nu de pe domeniu oficial)</li>
+          <li>Urgență artificială: „Contul tău va fi ÎNCHIS în 24 ore!"</li>
+          <li>Linkuri care nu corespund textului (hover pentru verificare)</li>
+          <li>Greșeli de ortografie și gramaticale</li>
+          <li>Cereri de parole sau date bancare prin e-mail</li>
+          <li>Atașamente neașteptate de la expeditori necunoscuți</li>
+        </ul>
+        <p style="margin-top:.7rem"><strong>Regulă de aur:</strong> Nicio bancă, instituție sau platformă legitimă nu îți va cere parola prin e-mail.</p>
+      </div>
+    </div>
+
+    <div class="acc-item" id="acc_net2">
+      <div class="acc-head" onclick="toggleAcc('acc_net2')">
+        <span class="acc-num">03</span>
+        <h4>Tehnologii emergente — VR și AR</h4>
+        <span class="acc-tag" style="background:var(--green-light);color:var(--green)">Emergent</span>
+        <span class="acc-chevron">▼</span>
+      </div>
+      <div class="acc-body">
+        <p><strong>Realitatea Virtuală (VR)</strong> — înlocuiește complet mediul real cu unul virtual. Necesită ochelari/căști VR. Exemple: Meta Quest, simulatoare de pilotaj, tururi virtuale.</p>
+        <p><strong>Realitatea Augmentată (AR)</strong> — suprapune elemente digitale peste lumea reală. Vizibil prin telefon sau ochelari AR. Exemple: Pokémon GO, filtrele Instagram, instrucțiuni de montaj.</p>
+        <p><strong>Realitatea Extinsă (XR)</strong> — termen umbrelă care include VR, AR și Mixed Reality (MR).</p>
+        <p><strong>Aplicații educaționale:</strong> tururi virtuale în muzee, simularea experimentelor periculoase, anatomie 3D interactivă, studiul istoriei „la fața locului".</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="practical-grid">
+    <div class="prac-card green">
+      <div class="prac-card-head">
+        <div>
+          <div class="prac-num">Activitate practică 03</div>
+          <h4>Crearea unui prompt eficient pentru IA</h4>
+        </div>
+      </div>
+      <div class="prac-body">
+        <p>Exersează interacțiunea cu un chatbot pentru a obține rezultate de calitate.</p>
+        <ol class="prac-steps">
+          <li>Deschide <strong>ChatGPT</strong> sau <strong>Gemini</strong> (cont gratuit)</li>
+          <li>Scrie un prompt slab: „Explică fotosinteza"</li>
+          <li>Notează calitatea răspunsului</li>
+          <li>Scrie un prompt bun cu rol + context + format: „Ești profesor de biologie pentru clasa a IX-a. Explică fotosinteza în 5 puncte simple, cu un exemplu practic pentru fiecare."</li>
+          <li>Compară cele două răspunsuri și documentează diferențele</li>
+        </ol>
+      </div>
+    </div>
+    <div class="prac-card gold">
+      <div class="prac-card-head">
+        <div>
+          <div class="prac-num">Activitate practică 04</div>
+          <h4>Fact-checking răspuns generat de IA</h4>
+        </div>
+      </div>
+      <div class="prac-body">
+        <p>Verifică dacă informațiile generate de IA sunt corecte și de încredere.</p>
+        <ol class="prac-steps">
+          <li>Cere unui chatbot 5 fapte despre un subiect știintific</li>
+          <li>Verifică fiecare fapt pe <strong>Wikipedia</strong> și o sursă academică</li>
+          <li>Identifică eventualele „halucinații" (informații false)</li>
+          <li>Creează un tabel: Fapt IA | Corect/Incorect | Sursa verificată</li>
+          <li>Prezintă concluziile clasei</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     CHAPTER 3 — CONTINUT DIGITAL
+══════════════════════════════════════════ -->
+<div class="ch-panel" id="ch3">
+
+  <div class="section-intro">
+    <div>
+      <h2>Conținuturi <span>Digitale</span></h2>
+      <p>Crearea și prelucrarea documentelor digitale (texte, prezentări) este o competență fundamentală în lumea modernă. Formatarea profesională, coerența vizuală și adaptarea la publicul țintă sunt esențiale.</p>
+    </div>
+    <div class="intro-card">
+      <div class="intro-card-title">Conținuturi acoperite</div>
+      <ul>
+        <li>Documente text profesionale</li>
+        <li>Prezentări digitale interactive</li>
+        <li>Formatare avansată (stiluri, cuprins)</li>
+        <li>Colaborare în documente (Track Changes)</li>
+        <li>Îmbinare corespondență (Mail Merge)</li>
+        <li>Utilizarea responsabilă a IA în birotică</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- DOCUMENTE TEXT -->
+  <div class="spec-wrap">
+    <div class="spec-head">
+      <h3>Birotică — Documente text profesionale</h3>
+      <span class="badge">Word / Writer</span>
+    </div>
+    <table class="spec">
+      <thead><tr><th>Funcție</th><th>Ce face</th><th>Când se folosește</th></tr></thead>
+      <tbody>
+        <tr class="hl"><td>Stiluri (Styles)</td><td class="muted">Formatare consistentă: Titlu 1, Titlu 2, Normal — aplică font, dimensiune, culoare uniform</td><td class="muted">Documente lungi, rapoarte, lucrări</td></tr>
+        <tr><td>Cuprins automat</td><td class="muted">Generează automat cuprinsul bazat pe stilurile de titlu aplicate</td><td class="muted">Lucrări cu mai mult de 3 pagini</td></tr>
+        <tr class="hl"><td>Track Changes</td><td class="muted">Urmărire modificări — înregistrează orice schimbare, cine a făcut-o și când</td><td class="muted">Documente collaborative, corectare</td></tr>
+        <tr><td>Comentarii</td><td class="muted">Note marginale care nu modifică textul — permit feedback fără a altera conținutul</td><td class="muted">Revizuire documente, feedback</td></tr>
+        <tr class="hl"><td>Mail Merge</td><td class="muted">Îmbinare corespondență — generează automat documente personalizate (scrisori, diplome) dintr-un șablon și o bază de date</td><td class="muted">Invitații, diplome, scrisori circulare</td></tr>
+        <tr><td>Liste imagine/tabele</td><td class="muted">Generare automată a listei figurilor și tabelelor din document, cu numerotare</td><td class="muted">Lucrări științifice, rapoarte tehnice</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout info">
+    <strong>💡 Stiluri vs. formatare manuală:</strong> Dacă formatezi manual (selectezi text și dai Bold/Font/Size), orice modificare ulterioară trebuie făcută pe fiecare paragraf separat. Cu stiluri, o singură schimbare actualizează tot documentul instantaneu.
+  </div>
+
+  <!-- PREZENTARI -->
+  <div class="spec-wrap">
+    <div class="spec-head">
+      <h3>Birotică — Prezentări digitale profesionale</h3>
+      <span class="badge">PowerPoint / Impress</span>
+    </div>
+    <table class="spec">
+      <thead><tr><th>Funcție</th><th>Ce face</th><th>Avantaj practic</th></tr></thead>
+      <tbody>
+        <tr class="hl"><td>Slide Master</td><td class="muted">Organizator diapozitive — definește aspectul implicit pentru toate slide-urile (font, culori, logo, fundal)</td><td class="muted">Schimbi 1 element → se actualizează toate slide-urile</td></tr>
+        <tr><td>Teme predefinite</td><td class="muted">Combinație coerentă de fonturi, culori și layout-uri</td><td class="muted">Aspect profesional fără cunoștințe de design</td></tr>
+        <tr class="hl"><td>Butoane de acțiune</td><td class="muted">Elemente interactive care navighează la alt slide, deschid URL-uri sau rulează media</td><td class="muted">Chestionare interactive, prezentări non-liniare</td></tr>
+        <tr><td>Hyperlinkuri interne</td><td class="muted">Linkuri între slide-uri din aceeași prezentare</td><td class="muted">Navigare la secțiuni, meniu interactiv</td></tr>
+        <tr class="hl"><td>Expunere personalizată</td><td class="muted">Custom Show — selectezi subset de slide-uri pentru audiențe diferite</td><td class="muted">Prezentare de 10 min din deck de 30 de slide-uri</td></tr>
+        <tr><td>Animații & tranziții</td><td class="muted">Efecte de apariție/dispariție pentru elemente și slide-uri</td><td class="muted">Ghidarea atenției audienței, impact vizual</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- REGULI DESIGN -->
+  <div class="info-grid">
+    <div class="info-card" style="--card-accent:var(--rust)">
+      <span class="info-card-icon">🎨</span>
+      <h3>Contrast vizual</h3>
+      <p>Text întunecat pe fundal deschis (sau invers). Raport minim 4.5:1 pentru accesibilitate. <strong>Evită:</strong> text gri pe fundal gri.</p>
+      <span class="tag">Design</span>
+    </div>
+    <div class="info-card" style="--card-accent:var(--blue);--tag-bg:var(--blue-light);--tag-c:var(--blue)">
+      <span class="info-card-icon">⚖️</span>
+      <h3>Echilibru și aliniere</h3>
+      <p>Elementele trebuie aliniate pe o grilă. Spațiu negativ (alb) egal în jur. <strong>Nu:</strong> text și imagini împrăștiate aleatoriu.</p>
+      <span class="tag" style="background:var(--blue-light);color:var(--blue)">Layout</span>
+    </div>
+    <div class="info-card" style="--card-accent:var(--green);--tag-bg:var(--green-light);--tag-c:var(--green)">
+      <span class="info-card-icon">🔤</span>
+      <h3>Ierarhie tipografică</h3>
+      <p>Titlu mare → Subtitlu mediu → Conținut mic. Maxim 2-3 fonturi per document. <strong>Evită:</strong> mai mult de 3 dimensiuni diferite pe același slide.</p>
+      <span class="tag" style="background:var(--green-light);color:var(--green)">Tipografie</span>
+    </div>
+    <div class="info-card" style="--card-accent:var(--gold);--tag-bg:var(--gold-light);--tag-c:var(--gold)">
+      <span class="info-card-icon">🎯</span>
+      <h3>Regula 6×6</h3>
+      <p>Maxim <strong>6 rânduri</strong> per slide, maxim <strong>6 cuvinte</strong> per rând. Slide-urile nu sunt un document Word — mai puțin = mai bine.</p>
+      <span class="tag" style="background:var(--gold-light);color:var(--gold)">Prezentări</span>
+    </div>
+  </div>
+
+  <div class="practical-grid">
+    <div class="prac-card rust">
+      <div class="prac-card-head">
+        <div>
+          <div class="prac-num">Activitate practică 05</div>
+          <h4>Document cu stiluri și cuprins automat</h4>
+        </div>
+      </div>
+      <div class="prac-body">
+        <p>Creează un ghid de 3 pagini cu formatare profesională completă.</p>
+        <ol class="prac-steps">
+          <li>Deschide Word/Writer, creează document nou</li>
+          <li>Aplică stil <strong>Titlu 1</strong> pentru capitole principale</li>
+          <li>Aplică stil <strong>Titlu 2</strong> pentru subcapitole</li>
+          <li>Inserează cuprins automat: <strong>References → Table of Contents</strong></li>
+          <li>Adaugă numerotare pagini în footer</li>
+          <li>Actualizează cuprinsul după adăugarea conținutului</li>
+        </ol>
+      </div>
+    </div>
+    <div class="prac-card blue">
+      <div class="prac-card-head">
+        <div>
+          <div class="prac-num">Activitate practică 06</div>
+          <h4>Prezentare interactivă cu butoane de acțiune</h4>
+        </div>
+      </div>
+      <div class="prac-body">
+        <p>Creează un chestionar interactiv cu navigare non-liniară.</p>
+        <ol class="prac-steps">
+          <li>Creează slide de <strong>Întrebare</strong> cu 2 variante de răspuns</li>
+          <li>Creează slide <strong>Răspuns Corect</strong> (verde) și slide <strong>Răspuns Greșit</strong> (roșu)</li>
+          <li>Adaugă butoane de acțiune pe fiecare variantă</li>
+          <li>Linkează butonul A la slide-ul corect/greșit corespunzător</li>
+          <li>Pe slide-ul de răspuns, adaugă buton <strong>Înapoi la întrebare</strong></li>
+          <li>Testează navigarea în modul Presentation</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     CHAPTER 4 — QUIZ
+══════════════════════════════════════════ -->
+<div class="ch-panel" id="ch4">
+  <div style="padding-top:1rem">
+    <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:900;margin-bottom:.5rem">
+      Quiz — <em style="color:var(--rust)">Testează-te</em>
+    </h2>
+    <p style="color:var(--ink3);margin-bottom:2rem">20 de întrebări din toate modulele TIC clasa a IX-a.</p>
+
+    <div class="quiz-outer">
+      <h3>TIC · Clasa a IX-a</h3>
+      <p class="quiz-sub">Sisteme de calcul, societate digitală și conținuturi digitale</p>
+      <div class="quiz-prog" id="qprog"></div>
+      <div id="qmain">
+        <div class="q-counter" id="qctr"></div>
+        <div class="q-text" id="qq"></div>
+        <div class="q-opts" id="qopts"></div>
+        <div class="q-fb" id="qfb"></div>
+        <button class="q-btn" id="qnext" onclick="nextQ()" style="display:none">Continuă →</button>
+      </div>
+      <div class="q-score" id="qscore">
+        <div class="score-big" id="snnum"></div>
+        <div class="score-bar-w"><div class="score-bar" id="sbar"></div></div>
+        <p class="score-msg" id="sntxt"></p>
+        <button class="q-btn" onclick="restartQ()" style="margin-top:1.5rem">Încearcă din nou ↺</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  <span>Material didactic · <strong>TIC · Clasa a IX-a</strong> · Trunchi Comun</span>
+  <span>Conform programei școlare în vigoare · Limbaj: Python 3</span>
+</footer>
+
+<script>
+/* ── CHAPTER SWITCH ── */
+function switchCh(idx) {
+  document.querySelectorAll('.ch-panel').forEach((p,i) => p.classList.toggle('active', i===idx));
+  document.querySelectorAll('.ch-btn').forEach((b,i) => b.classList.toggle('active', i===idx));
+  window.scrollTo({top: document.querySelector('header').offsetHeight, behavior:'smooth'});
+}
+
+/* ── ACCORDION ── */
+function toggleAcc(id) {
+  const item = document.getElementById(id);
+  item.classList.toggle('open');
+}
+
+/* ── QUIZ DATA ── */
+const QS = [
+  { q:'Ce componentă a CPU execută operații matematice și logice?', opts:['UCC','UAL','Cache L2','Regiștri'], c:1, ex:'UAL = Unitatea Aritmetică și Logică. UCC = Unitatea de Comandă și Control (dă ordinele). Cache = memorie tampon. Regiștri = memorie ultra-rapidă internă.' },
+  { q:'Ce înseamnă că memoria RAM este "volatilă"?', opts:['Are viteza variabilă','Datele se pierd când se oprește curentul','Capacitatea se modifică în timp','Nu poate fi citită rapid'], c:1, ex:'Volatil = datele dispar fără curent. De aceea salvi fișierele pe disc (HDD/SSD), nu în RAM — discul este non-volatil.' },
+  { q:'Care este principalul avantaj al unui SSD față de un HDD?', opts:['Capacitate mai mare','Preț mai mic per GB','Viteză mult mai mare','Consum mai mare de energie'], c:2, ex:'SSD: 500 MB/s – 7000 MB/s. HDD: 100–200 MB/s. SSD nu are piese mobile, deci e și mai silențios și mai rezistent la șocuri.' },
+  { q:'Ce sistem de fișiere suportă fișiere mai mari de 4 GB?', opts:['FAT32','FAT16','exFAT','Doar NTFS funcționează pe Windows'], c:2, ex:'FAT32 limitează fișierele la 4 GB. exFAT și NTFS nu au această limitare. exFAT e ideal pentru stick-uri USB cu fișiere mari.' },
+  { q:'Ce face interfața CLI față de GUI?', opts:['CLI e mai ușor de folosit de utilizatorii obișnuiți','CLI necesită comenzi text și consumă mai puține resurse','GUI e mai eficient pentru administrarea serverelor','Nu există diferență semnificativă'], c:1, ex:'CLI = Command Line Interface (terminal). GUI = Graphical User Interface (desktop vizual). Administratorii de sistem preferă CLI pentru eficiență și automatizare prin scripturi.' },
+  { q:'Ce rol are firewall-ul?', opts:['Elimină viruși de pe disc','Monitorizează și filtrează traficul de rețea','Criptează fișierele personale','Accelerează viteza internetului'], c:1, ex:'Firewall = filtru de rețea. Blochează conexiunile nesolicitate și previne accesul neautorizat. Nu detectează viruși (asta face antivirusul).' },
+  { q:'Ce este phishing-ul?', opts:['Un tip de virus care se auto-copiază','O metodă de stocare criptată a datelor','O tentativă de a obține date personale prin mesaje false','Un protocol de rețea pentru transferuri securizate'], c:2, ex:'Phishing = "pescuire" de date. Atacatorii imită bănci, platforme etc. pentru a te convinge să dai parola. Regula: nicio instituție legitimă nu îți cere parola prin e-mail.' },
+  { q:'Care este diferența principală dintre comunicarea sincronă și cea asincronă?', opts:['Sincronă e mai sigură','Sincronă are loc în timp real, asincronă permite răspuns decalat','Asincronă funcționează doar prin video','Sincronă necesită mai mult spațiu de stocare'], c:1, ex:'Sincron = același timp (chat live, apel video). Asincron = timp diferit (e-mail, forum). Alegerea depinde de urgența și contextul comunicării.' },
+  { q:'Ce este un LLM (Large Language Model)?', opts:['Un tip de memorie RAM de mare capacitate','Un model de IA care generează text bazat pe date de antrenament','Un limbaj de programare pentru robotică','Un sistem de fișiere pentru Linux'], c:1, ex:'LLM = model de limbaj mare (ChatGPT, Gemini, Copilot). Generează text probabilistic bazat pe miliarde de exemple. Poate "halucineze" — produce informații false cu aparentă încredere.' },
+  { q:'Ce înseamnă "halucinație" în contextul inteligenței artificiale?', opts:['Eroare de afișare grafică','Generarea de informații false prezentate cu încredere','Supraîncălzirea procesorului GPU','Un tip de atac cibernetic'], c:1, ex:'Halucinație IA = chatbot-ul inventează fapte, citate, referințe bibliografice inexistente, prezentate ca adevărate. De aceea trebuie MEREU verificate informațiile din surse de încredere.' },
+  { q:'Ce face funcția "Stiluri" (Styles) într-un procesor de text?', opts:['Schimbă culoarea fundalului documentului','Aplică formatare consistentă pe tot documentul printr-un singur click','Inserează automat imagini decorative','Comprimă fișierul pentru a ocupa mai puțin spațiu'], c:1, ex:'Stiluri = formatare inteligentă. Definești o dată cum arată "Titlu 1" și aplici pe orice titlu. Dacă schimbi stilul, se actualizează TOT documentul. Fără stiluri = formatare manuală lentă și inconsistentă.' },
+  { q:'Ce este Mail Merge (Îmbinare corespondență)?', opts:['Funcție de fuzionare a două documente identice','Funcție care generează automat documente personalizate dintr-un șablon și o bază de date','Opțiune de sincronizare a e-mailurilor','Instrument de traducere automată a documentelor'], c:1, ex:'Mail Merge: un singur șablon de scrisoare + o listă cu 100 de nume = 100 de scrisori personalizate automat. Util pentru invitații, diplome, buletine informative.' },
+  { q:'Ce face "Track Changes" într-un document colaborativ?', opts:['Salvează automat documentul la fiecare 5 minute','Înregistrează toate modificările cu autorul și data, fără a le aplica definitiv','Sincronizează documentul pe mai multe dispozitive','Blochează documentul pentru a preveni modificările'], c:1, ex:'Track Changes = urmărire modificări. Fiecare schimbare apare colorat cu autorul ei. Proprietarul documentului poate accepta sau respinge fiecare modificare individual. Esențial în colaborare.' },
+  { q:'Ce este "Slide Master" (Organizator diapozitive) în PowerPoint?', opts:['Un slide special care devine primul din prezentare','Un template global care definește aspectul tuturor slide-urilor','O funcție de animație pentru tranzițiile dintre slide-uri','Un instrument pentru prezentări colaborative în timp real'], c:1, ex:'Slide Master = template global. Definești logo, fonturi, culori, fundal O SINGURĂ DATĂ și se aplică automat pe toate slide-urile. Schimbi logo-ul în Slide Master → se actualizează pe toate.' },
+  { q:'Care este avantajul principal al memoriei cache față de RAM?', opts:['Capacitate mai mare','Viteza mult mai mare (deși e mai mică)','Este non-volatilă','Costă mai puțin'], c:1, ex:'Cache este integrat direct în CPU și are viteza procesorului. RAM e externă CPU-ului. Cache stochează datele frecvent accesate pentru a evita așteptarea accesului la RAM. L1 > L2 > L3 ca viteză, invers ca dimensiune.' },
+  { q:'Ce sistem de fișiere folosește Windows pe discurile interne în mod implicit?', opts:['FAT32','EXT4','NTFS','APFS'], c:2, ex:'NTFS (New Technology File System) = sistemul implicit Windows de la Windows XP încoace. Suportă fișiere mari, permisiuni de acces, criptare BitLocker, jurnalizare (recuperare după erori).' },
+  { q:'Ce înseamnă că un software este "open source"?', opts:['Este gratuit și nu poate fi modificat','Codul sursă este public și poate fi modificat și redistribuit','Este disponibil doar pe Linux','Nu necesită instalare, rulează direct din browser'], c:1, ex:'Open Source ≠ neapărat gratuit (deși de cele mai multe ori este). Înseamnă că poți vedea, modifica și distribui codul sursă. Exemple: Linux, Firefox, LibreOffice, VLC, Python.' },
+  { q:'Ce indică o rată de reîmprospătare de 144Hz la un monitor?', opts:['Rezoluția ecranului este 144×144 pixeli','Imaginea se actualizează de 144 ori pe secundă','Monitorul consumă 144 wați','Distanța de vizionare recomandată este 144 cm'], c:1, ex:'Hz = actualizări pe secundă. 60Hz = standard, 144Hz = gaming fluid (ideal pentru jocuri rapide), 240Hz = competitiv. Mai mulți Hz = mișcare mai fluidă, mai puțin blur de mișcare.' },
+  { q:'Care este rolul BIOS/UEFI stocat în memoria ROM?', opts:['Stochează documentele personale ale utilizatorului','Execută instrucțiunile POST la pornire și inițializează hardware-ul înainte de încărcarea SO','Gestionează fișierele de pe discul dur','Controlează viteza ventilatorului exclusiv'], c:1, ex:'BIOS/UEFI se află în ROM și rulează imediat la pornire. Face POST (Power-On Self Test), verifică hardware-ul și încarcă bootloader-ul care pornește sistemul de operare.' },
+  { q:'Ce înseamnă "realitate augmentată" (AR) față de "realitate virtuală" (VR)?', opts:['AR și VR sunt același lucru, doar denumiri diferite','AR înlocuiește complet realul, VR suprapune elemente digitale','AR suprapune elemente digitale peste lumea reală, VR o înlocuiește complet','AR necesită ochelari speciali, VR funcționează pe telefon'], c:2, ex:'AR = Augmented Reality: elementele digitale sunt adăugate PESTE lumea reală (Pokémon GO, filtre Instagram, IKEA Place). VR = Virtual Reality: înlocuiește COMPLET realul (Meta Quest, simulatoare). AR prin telefon, VR prin căști.' },
+];
+
+let curQ=0, score=0, wrongArr=[];
+
+function renderQ(){
+  const q=QS[curQ];
+  document.getElementById('qctr').textContent=`Întrebarea ${curQ+1} din ${QS.length}`;
+  document.getElementById('qq').innerHTML=q.q;
+  const opts=document.getElementById('qopts');
+  opts.innerHTML=q.opts.map((o,i)=>`<button class="qo" onclick="pickQ(this,${i})">${o}</button>`).join('');
+  document.getElementById('qfb').className='q-fb';
+  document.getElementById('qfb').textContent='';
+  document.getElementById('qnext').style.display='none';
+  document.getElementById('qnext').textContent=curQ===QS.length-1?'Vezi rezultatul →':'Continuă →';
+  renderProg();
+}
+
+function renderProg(){
+  document.getElementById('qprog').innerHTML=QS.map((_,i)=>{
+    let c='';
+    if(i<curQ) c=wrongArr.includes(i)?'wrong-q':'done';
+    if(i===curQ) c='cur';
+    return `<div class="qp ${c}"></div>`;
+  }).join('');
+}
+
+function pickQ(btn,idx){
+  const q=QS[curQ];
+  document.querySelectorAll('.qo').forEach(o=>o.setAttribute('disabled',true));
+  const fb=document.getElementById('qfb');
+  if(idx===q.c){
+    btn.classList.add('correct');
+    fb.textContent='✓ '+q.ex; fb.className='q-fb show good'; score++;
+  } else {
+    btn.classList.add('wrong');
+    document.querySelectorAll('.qo')[q.c].classList.add('correct');
+    fb.textContent='✗ '+q.ex; fb.className='q-fb show bad'; wrongArr.push(curQ);
+  }
+  document.getElementById('qnext').style.display='inline-block';
+}
+
+function nextQ(){
+  curQ++;
+  if(curQ>=QS.length){showScore();return;}
+  renderQ();
+}
+
+function showScore(){
+  document.getElementById('qmain').style.display='none';
+  const sc=document.getElementById('qscore'); sc.classList.add('show');
+  const pct=score/QS.length;
+  document.getElementById('snnum').textContent=`${score}/${QS.length}`;
+  const bar=document.getElementById('sbar');
+  bar.style.width='0%'; bar.style.background=pct>=.8?'#4ade80':pct>=.5?'#fbbf24':'#f87171';
+  setTimeout(()=>bar.style.width=`${Math.round(pct*100)}%`,100);
+  const msgs=[[1,'🏆 Excelent! Stăpânești materia TIC clasa a IX-a!'],[.8,'🌟 Foarte bine! Recitește secțiunile unde ai greșit.'],[.6,'👍 Bine! Mai exersează hardware-ul și software-ul.'],[0,'📖 Continuă să studiezi! Parcurge din nou modulele.']];
+  document.getElementById('sntxt').textContent=msgs.find(m=>pct>=m[0])[1];
+}
+
+function restartQ(){
+  curQ=0;score=0;wrongArr=[];
+  document.getElementById('qmain').style.display='block';
+  document.getElementById('qscore').classList.remove('show');
+  renderQ();
+}
+
+renderQ();
+</script>
+</body>
+</html>
